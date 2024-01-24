@@ -28,12 +28,21 @@
     input, select, textarea {
         @apply text-text text-xl bg-bg border-primary border p-4 focus:outline-none focus:ring-4 focus:ring-primary
     }
+    input, select {
+        @apply h-4 max-w-sm
+    }
 }
 
 @layer components {
     .btn {
         @apply py-2 px-4 transition-all hover:-translate-y-2 active:scale-105
         disabled:transform-none disabled:bg-slate-400 disabled:border-slate-400
+    }
+    .btn-primary {
+        @apply btn bg-primary-300
+    }
+    .link {
+        
     }
 }
 

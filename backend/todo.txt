@@ -1,0 +1,7 @@
+1. Add Authentication with session key 
+2. When authenticated, profile data send to svelte store
+3. Use the account when wanting to post
+
+4. Currently queries are hard-coded data, make them queried from a server
+
+5. Add a chatting feature, possibly using websocket data

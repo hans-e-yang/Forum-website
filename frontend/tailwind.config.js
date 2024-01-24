@@ -11,7 +11,7 @@ export default {
           ...colors.blue
         },
         bg: {
-          DEFAULT: colors.rose[200],
+          DEFAULT: colors.rose[100],
           ...colors.blue
         },
         text: {

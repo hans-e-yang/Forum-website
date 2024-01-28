@@ -2,6 +2,10 @@ import express from "express";
 import { createServer } from 'node:http'
 import { Server } from 'socket.io'
 import cors from 'cors'
+import session from "express-session";
+import dotenv from 'dotenv'
+import authRoutes from './routes/auth.js'
+import apiRoutes from './routes/api.js'
 
 const app = express()
 const port = 3000
@@ -13,14 +17,23 @@ const io = new Server(server, {
     }
 })
 
+dotenv.config()
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+        path: "/"
+    }
+}))
 app.use(cors({
-    origin: "http://localhost:5173"
+    origin: "http://localhost:5173",
+    credentials: true
 }), express.json())
 
-app.post("/login", (req, res)=> {
-    console.log(req.body)
-    res.send(req.body)
-})
+app.use(authRoutes)
+app.use("/api", apiRoutes)
+
 
 // Query for all posts with basic info, maybe add a cap, 5 or 10 perhaps
 app.get("/posts", (req, res) => {
@@ -55,6 +68,11 @@ app.get("/post", (req, res)=> {
     }
 })
 
+
+server.listen(port, () => {
+    console.log(`Server running at port ${port}`)
+})
+
 io.on('connection', (socket) => {
     socket.join("global")
     socket.on('chat', (data, callback)=> {
@@ -74,8 +92,4 @@ io.on('connection', (socket) => {
             status: "ok"
         })
     })
-})
-
-server.listen(port, () => {
-    console.log(`Server running at port ${port}`)
 })

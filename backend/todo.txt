@@ -1,6 +1,6 @@
-1. Add Authentication with session key 
-2. When authenticated, profile data send to svelte store
-3. Use the account when wanting to post
+2. When authenticated, profile data send to svelte store <====
+    2a. When authenticated, remove the register and login links, replace with username and icon
+3. Use the account when wanting to post <==========
 
 4. Currently queries are hard-coded data, make them queried from a server
 

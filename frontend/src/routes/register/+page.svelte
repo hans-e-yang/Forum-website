@@ -1,6 +1,10 @@
 <script>
+	import { goto } from '$app/navigation';
+    import { _fetch } from '$lib/client/util'
     import { PUBLIC_API_ADDRESS } from '$env/static/public'
     import { user } from '$lib/client/stores'
+
+    if ($user.name) goto("/")
     
     let username = ""
     let password = ""
@@ -8,34 +12,25 @@
     
     let errorMessage = ""
     
-    function register() {
+    async function register() {
         errorMessage = ""
         if (password != confirmPass) {
             errorMessage = "Passwords were not the same"
             return
         }
-        fetch(PUBLIC_API_ADDRESS + "/register", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                username, password
-            })
-        })
-        .then(async (res)=> {
-            const json = await res.json()
-            if (!res.ok) {
-                errorMessage = json.err ? json.err : res.statusText
-            } else {
-                // Sets the profile store to username submitted
-                // In the future, the client should request profile data from server
-                user.update(data => ({
-                    ...data,
-                    name: username
-                }))            
-            }
-        })
+        const res = await _fetch("/register", {username, password}, "POST")
+        const json = await res.json()
+        if (!res.ok) {
+            errorMessage = json.err ? json.err : res.statusText
+        } else {
+            // Sets the profile store to username submitted
+            // In the future, the client should request profile data from server
+            user.update(data => ({
+                ...data,
+                name: username
+            })) 
+            goto("/")           
+        }
     }
 </script>
 

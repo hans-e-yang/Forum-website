@@ -1,6 +1,9 @@
 <script>
+	import { goto } from '$app/navigation';
     import { PUBLIC_API_ADDRESS } from '$env/static/public'
     import { user } from '$lib/client/stores'
+    if ($user.name) goto("/")
+    
     let username = ""
     let password = ""
     let errorMessage = ""
@@ -28,7 +31,8 @@
                 user.update(data => ({
                     ...data,
                     name: username
-                }))            
+                }))
+                goto("/")
             }
         })
     }

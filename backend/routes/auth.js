@@ -19,7 +19,7 @@ router.post('/login', async (req, res) => {
             bcrypt.compare(password, user.password, (err, result)=> {
                 if (!result) return res.status(401).send({err: 'The username and/or password is invalid.'})
 
-                req.session.user = username
+                req.session.username = username
                 return res.status(200).send({}) // important.......
             })
         })
@@ -59,7 +59,7 @@ router.post('/register', async (req, res) => {
         }).then(()=> {
             // Registered
             // Set session cookie
-            req.session.user = username
+            req.session.username = username
             return res.status(200).send({})
         }).catch(()=>{
             // Send error

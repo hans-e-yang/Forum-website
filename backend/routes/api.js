@@ -1,16 +1,17 @@
 import { Router } from "express";
+import { PrismaClient } from "@prisma/client";
 
+const prisma = new PrismaClient()
 const router = Router()
 
-router.get('/test', (req, res) => {
-    console.log("HI")
-    const user = req.session.user
-    console.log(user)
-    if (req.session.thing) {
-        res.send(`${req.session.thing}`)
-    } else {
-        res.sendStatus(200)
+
+
+router.get("/profile", (req, res) => {
+    if (req.session.username) {
+        // prisma.user.findUnique({where: {username: req.session.username}})
+        return res.send({username: req.session.username})
     }
+    return res.send({err: "Not logged in"})
 })
 
 export default router

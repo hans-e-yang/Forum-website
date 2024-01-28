@@ -6,6 +6,8 @@ import session from "express-session";
 import dotenv from 'dotenv'
 import authRoutes from './routes/auth.js'
 import apiRoutes from './routes/api.js'
+import { PrismaSessionStore } from '@quixo3/prisma-session-store';
+import  { PrismaClient } from '@prisma/client';
 
 const app = express()
 const port = 3000
@@ -24,7 +26,15 @@ app.use(session({
     saveUninitialized: true,
     cookie: {
         path: "/"
-    }
+    },
+    store: new PrismaSessionStore(
+        new PrismaClient(),
+        {
+          checkPeriod: 2 * 60 * 1000,  //ms
+          dbRecordIdIsSessionId: true,
+          dbRecordIdFunction: undefined,
+        }
+      )
 }))
 app.use(cors({
     origin: "http://localhost:5173",

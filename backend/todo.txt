@@ -1,5 +1,48 @@
-2. When authenticated, profile data send to svelte store <====
-    2a. When authenticated, remove the register and login links, replace with username and icon
+1. Make a documentation for the api routes to make it easy for urself man
+Perhaps change the session to store id instead, makes it simpler, but idduno
+2. Format the comments to make it look better
+3. Create a database for the posts, perhaps schema can be done like this
+    schema Thread {
+        id,
+        title,
+        posts
+    }
+    schema Post {
+        id,
+        userId,
+        date made,
+        text
+    }
+model User {
+  id    Int     @id @default(autoincrement())
+  name  String
+  posts Post[]
+}
+
+model Post {
+  id     Int    @id @default(autoincrement())
+  title  String
+  body   String
+  userid Int
+  user   User   @relation(fields: [userid], references: [id])
+}
+
+const createPost = async () => {
+  const user = await prisma.user.findUnique({ where: { id: userId } });
+  if (!user) {
+    throw new Error('User not found');
+  }
+
+  const newPost = await prisma.post.create({
+    data: {
+      title: 'New Post',
+      body: 'Post body content',
+      user: {
+        connect: { id: user.id },
+      },
+    },
+  });
+
 3. Use the account when wanting to post <==========
 
 4. Currently queries are hard-coded data, make them queried from a server

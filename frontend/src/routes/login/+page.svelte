@@ -2,39 +2,28 @@
 	import { goto } from '$app/navigation';
     import { PUBLIC_API_ADDRESS } from '$env/static/public'
     import { user } from '$lib/client/stores'
+    import { _fetch } from '$lib/client/util'
     if ($user.name) goto("/")
     
     let username = ""
     let password = ""
     let errorMessage = ""
 
-    function login() {
+    async function login() {
         errorMessage = ""
-        fetch(PUBLIC_API_ADDRESS + "/login", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                username, password
-            }),
-            credentials: "include",
-            mode: "cors"
-        })
-        .then(async (res)=> {
-            const json = await res.json()
-            if (!res.ok) {
-                errorMessage = json.err ? json.err : res.statusText
-            } else {
-                // Sets the profile store to username submitted
-                // In the future, the client should request profile data from server
-                user.update(data => ({
-                    ...data,
-                    name: username
-                }))
-                goto("/")
-            }
-        })
+        const res = await _fetch("/login", {username, password}, 'POST')
+        const json = await res.json()
+        if (!res.ok) {
+            errorMessage = json.err ? json.err : res.statusText
+        } else {
+            // Sets the profile store to username submitted
+            // In the future, the client should request profile data from server
+            user.update(data => ({
+                ...data,
+                name: username
+            }))
+            goto("/")
+        }
     }
 </script>
 

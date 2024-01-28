@@ -20,6 +20,9 @@ export async function _fetch(route: string, body: any = null, method: string = "
     }
     if (method != "GET" && body) {
         options.body = JSON.stringify(body)
+        options.headers = {
+            "Content-Type": "application/json"
+        }
     }
     return fetch(PUBLIC_API_ADDRESS + route, options).then(res=>res)
 }

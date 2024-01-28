@@ -2,7 +2,6 @@
     import "../app.css"
     import { user } from '$lib/client/stores'
 	import { onMount } from "svelte";
-    import { PUBLIC_API_ADDRESS } from '$env/static/public'
 	import { _fetch } from "$lib/client/util";
 
     const links = [{

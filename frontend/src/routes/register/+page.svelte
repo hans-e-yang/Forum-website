@@ -1,7 +1,6 @@
 <script>
 	import { goto } from '$app/navigation';
     import { _fetch } from '$lib/client/util'
-    import { PUBLIC_API_ADDRESS } from '$env/static/public'
     import { user } from '$lib/client/stores'
 
     if ($user.name) goto("/")

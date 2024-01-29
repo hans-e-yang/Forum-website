@@ -17,12 +17,7 @@
         @apply text-xl
     }
     a {
-        @apply text-primary relative
-        after:absolute after:transition-transform after:duration-300
-        after:bg-primary after:h-[2px]
-        after:inset-0 after:top-auto 
-        after:scale-x-0 after:origin-right
-        hover:after:origin-left hover:after:scale-x-100
+        @apply hover:underline
     }
 
     input, select, textarea {
@@ -42,7 +37,13 @@
         @apply btn bg-primary-300
     }
     .link {
-        
+        @apply text-primary relative
+        after:absolute after:transition-transform after:duration-300
+        after:bg-primary after:h-[2px]
+        after:inset-0 after:top-auto 
+        after:scale-x-0 after:origin-right
+        hover:after:origin-left hover:after:scale-x-100
+        hover:no-underline
     }
 }
 

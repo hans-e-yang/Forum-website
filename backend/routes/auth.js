@@ -1,5 +1,5 @@
 import { Router } from "express"
-import prisma from "../lib/prismaClient"
+import prisma from "../lib/prismaClient.js"
 import bcrypt from 'bcrypt'
 
 // Rounds of bcrypt salting
@@ -7,13 +7,13 @@ const saltRounds = 2
 const router = Router()
 
 router.post('/login', async (req, res) => {
-    let {username, password} = req.body
+    const {username, password} = req.body
     if (!username || !password) {
         return res.status(422).send({
             err: "Please supply an email address and password"
         })
     }
-    prisma.user.findUnique({where:{username}})
+    prisma.user.findUnique({where:{name: username}})
         .then((user)=>{
             bcrypt.compare(password, user.password, (err, result)=> {
                 if (!result) return res.status(401).send({err: 'The username and/or password is invalid.'})
@@ -30,7 +30,7 @@ router.post('/login', async (req, res) => {
 })
 
 router.post('/register', async (req, res) => {
-    let {username, password} = req.body
+    const {username, password} = req.body
 
     // Check if form parameters are fulfilled
     if (!username || !password) {
@@ -40,7 +40,7 @@ router.post('/register', async (req, res) => {
     }
 
     // Checks if another user with the same username exists
-    const user = await prisma.user.findUnique({where: {username}})
+    const user = await prisma.user.findUnique({where: {name: username}})
     if (user) {
         // Possibly a security issue, have read that should return 200 either way but oh well
         return res.status(409).send({
@@ -50,23 +50,29 @@ router.post('/register', async (req, res) => {
 
     bcrypt.hash(password, saltRounds, (err, hash) => {
         if (err) return res.status(500).send({err: "Internal server error"})
-        
         prisma.user.create({
             data: {
                 // password should be hashed
-                username, password: hash
+                name: username, password: hash
             }
         }).then((user)=> {
             // Registered
             // Set session cookie
             req.session.username = user.name
             req.session.userID = user.id
+
+
+            // Create a new profile
+            prisma.profile.create({
+                data: {
+                    username,
+                    userId: user.id
+                }
+            })
+            .then(()=>res.status(200).send({}))
+            .catch(()=>res.status(500).send({err: "Intenal server error"}))
             
-            return res.status(200).send({})
-        }).catch(()=>{
-            // Send error
-            return res.status(500).send({err: "Internal server error"})
-        })
+        }).catch(()=>{res.status(500).send({err: "Internal server error"})})
     })
 
     

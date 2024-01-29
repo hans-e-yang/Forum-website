@@ -1,8 +1,8 @@
 import express from "express";
 import { createServer } from 'node:http'
 import { PrismaSessionStore } from '@quixo3/prisma-session-store';
-import { Server } from 'socket.io'
 import prisma from "./lib/prismaClient.js";
+import { Server } from 'socket.io'
 import cors from 'cors'
 import session from "express-session";
 import dotenv from 'dotenv'
@@ -30,7 +30,7 @@ app.use(session({
         path: "/"
     },
     store: new PrismaSessionStore(
-        new PrismaClient(),
+        prisma,
         {
           checkPeriod: 2 * 60 * 1000,  //ms
           dbRecordIdIsSessionId: true,

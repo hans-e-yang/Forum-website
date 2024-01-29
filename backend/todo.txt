@@ -1,49 +1,7 @@
-Perhaps change the session to store id instead, makes it simpler, but idduno
-
+Frontend
+1. Make a page to start a thread
+2. Make something to make a post 
 2. Format the comments to make it look better
-3. Create a database for the posts, perhaps schema can be done like this
 
-model Thread {
-  id    Int    @id @default(autoincrement())
-  title String
-  posts Post[]
-  userid Int
-  user   User   @relation(fields: [userid], references: [id])
-}
-model User {
-  id    Int     @id @default(autoincrement())
-  name  String
-  posts Post[]
-  threads Thread[]
-}
-
-model Post {
-  id     Int    @id @default(autoincrement())
-  body   String
-  userid Int
-  user   User   @relation(fields: [userid], references: [id])
-  threadid Int
-  thread Thread @relation(fields: [threadid], references: [id])
-}
-
-const createPost = async () => {
-  const user = await prisma.user.findUnique({ where: { id: userId } });
-  if (!user) {
-    throw new Error('User not found');
-  }
-
-  const newPost = await prisma.post.create({
-    data: {
-      title: 'New Post',
-      body: 'Post body content',
-      user: {
-        connect: { id: user.id },
-      },
-    },
-  });
-
-3. Use the account when wanting to post <==========
-
-4. Currently queries are hard-coded data, make them queried from a server
 
 5. Add a chatting feature, possibly using websocket data

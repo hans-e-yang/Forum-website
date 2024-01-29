@@ -9,6 +9,13 @@ model User {
   id    Int     @id @default(autoincrement())
   name String  @unique
   password  String
+  profile Profile?
+}
+
+model Profile {
+  userId  Int   @id 
+  user    User  @relation(fields: [userId], references: [id])
+  username  String  @unique
   posts Post[]
   threads Thread[]
 }
@@ -24,17 +31,19 @@ model Thread {
   id    Int    @id @default(autoincrement())
   title String
   posts Post[]
-  userid Int
-  user   User   @relation(fields: [userid], references: [id])
+  userId Int
+  author   Profile   @relation(fields: [userId], references: [userId])
+  createdAt DateTime
 }
 
 model Post {
   id     Int    @id @default(autoincrement())
   body   String
-  userid Int
-  user   User   @relation(fields: [userid], references: [id])
-  threadid Int
-  thread Thread @relation(fields: [threadid], references: [id])
+  userId Int
+  author   Profile   @relation(fields: [userId], references: [userId])
+  threadId Int
+  thread Thread @relation(fields: [threadId], references: [id])
+  createdAt DateTime
 }
 
 datasource db {

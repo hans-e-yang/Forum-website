@@ -27,12 +27,12 @@
 <div class="flex flex-col min-h-screen">
     <nav class="flex items-center gap-5 p-4 border-b-2 border-b-primary">
         {#each links as {href, name}}
-            <a href={href}>{name}</a>
+            <a class="link" href={href}>{name}</a>
         {/each}
         <div class="flex items-center justify-end flex-grow gap-4">
             {#if !$user.name}
-                <a href="/register">Register</a>
-                <a href="/login">Login</a>      
+                <a class="link" href="/register">Register</a>
+                <a class="link" href="/login">Login</a>      
             {:else}
                 <img src="" alt="" class="w-8 h-8 border rounded-full border-text bg-primary">
                 <p>{$user.name}</p>

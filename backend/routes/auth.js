@@ -1,10 +1,9 @@
 import { Router } from "express"
-import { PrismaClient } from "@prisma/client"
+import prisma from "../lib/prismaClient"
 import bcrypt from 'bcrypt'
 
 // Rounds of bcrypt salting
 const saltRounds = 2
-const prisma = new PrismaClient()
 const router = Router()
 
 router.post('/login', async (req, res) => {
@@ -19,7 +18,8 @@ router.post('/login', async (req, res) => {
             bcrypt.compare(password, user.password, (err, result)=> {
                 if (!result) return res.status(401).send({err: 'The username and/or password is invalid.'})
 
-                req.session.username = username
+                req.session.username = user.name
+                req.session.userID = user.id
                 return res.status(200).send({}) // important.......
             })
         })
@@ -56,10 +56,12 @@ router.post('/register', async (req, res) => {
                 // password should be hashed
                 username, password: hash
             }
-        }).then(()=> {
+        }).then((user)=> {
             // Registered
             // Set session cookie
-            req.session.username = username
+            req.session.username = user.name
+            req.session.userID = user.id
+            
             return res.status(200).send({})
         }).catch(()=>{
             // Send error

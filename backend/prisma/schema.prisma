@@ -7,8 +7,10 @@ generator client {
 
 model User {
   id    Int     @id @default(autoincrement())
-  username String  @unique
+  name String  @unique
   password  String
+  posts Post[]
+  threads Thread[]
 }
 
 model Session {
@@ -16,6 +18,23 @@ model Session {
   sid       String   @unique
   data      String
   expiresAt   DateTime
+}
+
+model Thread {
+  id    Int    @id @default(autoincrement())
+  title String
+  posts Post[]
+  userid Int
+  user   User   @relation(fields: [userid], references: [id])
+}
+
+model Post {
+  id     Int    @id @default(autoincrement())
+  body   String
+  userid Int
+  user   User   @relation(fields: [userid], references: [id])
+  threadid Int
+  thread Thread @relation(fields: [threadid], references: [id])
 }
 
 datasource db {

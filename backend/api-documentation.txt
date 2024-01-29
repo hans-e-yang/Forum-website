@@ -1,0 +1,30 @@
+ROUTES --------------------------------------
+/login: Log in to an account
+    expects: {
+        username: string, 
+        password: string
+    }
+    returns: Success | Error
+
+/register: Register a new account
+    expects: {
+        username: string,
+        password: string
+    }
+    returns: Success | Error
+
+/api/profile: Gets user profile. Returns User object if valid session key, else Error
+    expects: null
+    returns: User | Error
+
+OBJECTS -------------------------------------
+Success : {
+
+} // Empty object
+Error : {
+    err: string
+} 
+
+User : {
+    username: string
+}

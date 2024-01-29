@@ -1,10 +1,6 @@
 import { Router } from "express";
-import { PrismaClient } from "@prisma/client";
-
-const prisma = new PrismaClient()
+import prisma from "../lib/prismaClient";
 const router = Router()
-
-
 
 router.get("/profile", (req, res) => {
     if (req.session.username) {

@@ -1,0 +1,5 @@
+session properties
+req.session.  <- this thing
+
+username : string
+    username of the user

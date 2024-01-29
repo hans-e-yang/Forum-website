@@ -1,13 +1,15 @@
 import express from "express";
 import { createServer } from 'node:http'
+import { PrismaSessionStore } from '@quixo3/prisma-session-store';
 import { Server } from 'socket.io'
+import prisma from "./lib/prismaClient.js";
 import cors from 'cors'
 import session from "express-session";
 import dotenv from 'dotenv'
+
 import authRoutes from './routes/auth.js'
 import apiRoutes from './routes/api.js'
-import { PrismaSessionStore } from '@quixo3/prisma-session-store';
-import  { PrismaClient } from '@prisma/client';
+
 
 const app = express()
 const port = 3000

@@ -1,7 +1,8 @@
 Frontend
-1. Make a page to start a thread
-2. Make something to make a post 
-2. Format the comments to make it look better
+1. Change the commenting form, component, put in if block, appear when plannign to comment
+2. Format the comments to make it look better, like adding a profile picture, just make it a color first
+3. Delete threads and posts
+
 
 
 5. Add a chatting feature, possibly using websocket data

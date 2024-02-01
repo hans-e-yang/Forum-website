@@ -1,21 +1,35 @@
 ROUTES --------------------------------------
-/login: Log in to an account
+POST /login: Log in to an account
     expects: {
         username: string, 
         password: string
     }
     returns: Success | Error
 
-/register: Register a new account
+POST /register: Register a new account
     expects: {
         username: string,
         password: string
     }
     returns: Success | Error
 
-/api/profile: Gets user profile. Returns User object if valid session key, else Error
-    expects: null
+AUTH
+GET /api/profile: Gets user profile. Returns User object if valid session key, else Error
+    queries: null
     returns: User | Error
+
+AUTH
+POST /api/thread: Creates a new thread
+    expects: {
+        title: string
+    }
+    returns: Thread
+
+GET /api/thread: Gets threads based on the query
+    queries: {
+        amount: number = 10,
+    }
+    returns: Thread[]
 
 OBJECTS -------------------------------------
 Success : {

@@ -3,3 +3,5 @@ req.session.  <- this thing
 
 username : string
     username of the user
+userId: number
+    userId of the user

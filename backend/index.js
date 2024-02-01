@@ -21,6 +21,7 @@ const io = new Server(server, {
     }
 })
 
+
 dotenv.config()
 app.use(session({
     secret: process.env.SESSION_SECRET,

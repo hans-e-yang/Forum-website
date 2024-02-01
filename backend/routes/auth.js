@@ -19,7 +19,7 @@ router.post('/login', async (req, res) => {
                 if (!result) return res.status(401).send({err: 'The username and/or password is invalid.'})
 
                 req.session.username = user.name
-                req.session.userID = user.id
+                req.session.userId = user.id
                 return res.status(200).send({}) // important.......
             })
         })
@@ -59,7 +59,7 @@ router.post('/register', async (req, res) => {
             // Registered
             // Set session cookie
             req.session.username = user.name
-            req.session.userID = user.id
+            req.session.userId = user.id
 
 
             // Create a new profile

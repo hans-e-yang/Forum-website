@@ -7,9 +7,6 @@
     const links = [{
         href: "/",
         name: "Home"
-    }, {
-        href: "/chat",
-        name: "Chat"
     }]
 
     onMount( async ()=>{

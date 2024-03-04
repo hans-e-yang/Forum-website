@@ -1,9 +1,11 @@
 <script>
     import { page } from '$app/stores'
     import { PUBLIC_API_ADDRESS } from '$env/static/public'
+    import { user } from '$lib/client/stores'
     import { timeSince, _fetch } from '$lib/client/util'
 
     let comment = ""
+    let error = ""
     
     const threadId = $page.params.slug
     async function loadData() {
@@ -15,9 +17,17 @@
     }
 
     function createPost() {
-        if (!comment) return
+        if (!comment) {
+            error = "No comment entered"
+            return
+        }
         _fetch("/api/post", {body: comment, threadId}, "POST")
-        .then(async res=>console.log(await res.json()))
+        .then(async res=> {
+            let json = await res.json()
+            if (json.err) {
+                error = json.err
+            }
+        })
     }
     
 </script>
@@ -47,9 +57,15 @@
         </div>
 
         <!-- Move into seperate component -->
-        <textarea bind:value={comment} class="text-sm"></textarea>
-        <button on:click={createPost} class="btn-primary">Post</button>
-    {:catch error}
+        
+        {#if $user.name}
+            <textarea bind:value={comment} class="text-sm"></textarea>
+            <button on:click={createPost} class="btn-primary w-fit mt-4 mx-[50%] translate-x-[-50%]">Post</button>
+            <p class="text-center">{error}</p>
+        {:else}
+            <p class="text-center">Please login to comment</p>
+        {/if}
+        {:catch error}
         <h2>Post not found 😔</h2>
     {/await}
 </div>

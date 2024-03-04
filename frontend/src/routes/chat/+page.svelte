@@ -1,4 +1,5 @@
 <script lang="ts">
+    // Experimental Chatting with websockets, unfinished
     import { PUBLIC_API_ADDRESS } from "$env/static/public"
     import { io } from 'socket.io-client'
     

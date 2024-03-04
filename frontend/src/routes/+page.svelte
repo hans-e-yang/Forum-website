@@ -1,5 +1,6 @@
 <script lang="ts">
     import {_fetch, timeSince} from '$lib/client/util'
+    import { user } from '$lib/client/stores';
     async function loadData() {
         const res = await _fetch("/api/thread")
         if (res.ok) {
@@ -11,8 +12,10 @@
     
 </script>
 
-<h1 class="my-12">Welcome to untitled chat app</h1>
-<a class="!no-underline btn-primary" href="./startThread"> Start a Thread</a>
+<h1 class="my-12">Welcome to untitled forum website</h1>
+{#if $user.name}
+    <a class="!no-underline btn-primary" href="./startThread"> Start a Thread</a>
+{/if}
 {#await loadData()}
     <p>Loading post</p>
 {:then res}

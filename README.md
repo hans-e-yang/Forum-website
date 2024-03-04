@@ -1,5 +1,7 @@
 Forum Website
+
 Frontend made with Sveltekit and TailwindCSS
+
 Backend made with ExpressJS and Prisma with SQLite3
 
 To run locally:
